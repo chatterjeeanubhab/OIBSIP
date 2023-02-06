@@ -1,0 +1,94 @@
+import numpy as np
+import pandas as pd
+import plotly
+import plotly.express as px
+import plotly.offline as pyo
+
+#from sklearn.model_selection import train_test_split, GridsearchCV
+from sklearn.model_selection import GridSearchCV, train_test_split
+#from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.tree import DecisionTreeClassifier
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+import warnings
+warnings.filterwarnings('ignore')
+
+df = pd.read_csv(r'C:\Users\hp\Downloads\Iris.csv')
+df
+
+df.shape
+
+df.drop('Id', axis=1, inplace = True)
+
+df
+
+df['Species'].value_counts()
+
+sns.countplot(df['Species']);
+
+plt.bar(df['Species'], df['PetalWidthCm'])
+
+sns.pairplot(df,hue='Species')
+
+df.rename(columns={'SepalLengthCm': 'SepalLength', 'SepalWidthCm': 'SepalWidth', 'PetalWidthCm': 'PetalWidth', 'PetalLengthCm':, 'PetalLength','Species': 'Species'})
+
+df
+
+x = df.drop(['Species'], axis = 1)
+
+x
+
+y = df["Species"]
+
+y
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3,random_state=0)
+
+x_test
+
+x_test.size
+x_train.size
+y_test.size
+y_train.size
+
+dt_model = DecisionTreeClassifier()
+dt_model.fit(x_train, y_train)
+
+ypredtrain = dt_model.predict(x_train)
+
+Accuracy = accuracy_score(y_train, ypredtrain)
+print('Accuracy:', Accuracy)
+
+Confusion_matrix = confusion_matrix(y_train, ypredtrain)
+print('Confusion_matrix: \n', Confusion_matrix)
+
+Classification_report = classification_report(y_train, ypredtrain)
+print('Classification_report: \n', Classification_report)
+
+ypredtest = dt_model.predict(x_test)
+
+Accuracy = accuracy_score(y_test, ypredtest)
+print('Accuracy:', Accuracy)
+
+Confusion_matrix = confusion_matrix(y_test, ypredtest)
+print('Confusion_matrix: \n', Confusion_matrix)
+
+Classification_report = classification_report(y_test, ypredtest)
+print('Classification_report: \n', Classification_report)
+
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+
+model.fit(x_train, y_train)
+
+ypredtest = dt_model.predict(x_test)
+ypredtest
+
+from sklearn.metrics import accuracy_score, confusion_matrix
+confusion_matrix(y_test, ypredtest)
+
+accuracy = accuracy_score(y_test, ypredtest)*100
+print('Accuracy of the model is {:.2f}'.format(accuracy))
